@@ -1,5 +1,9 @@
+// HtmlWebpackPlugin === takes app's HTML file and injects all JS into it via dynamic script tag
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// module: & plugins: === same rank / dimension
 module.exports = {
-  module: { // webpack.common.js === M R TEU LO PP
+  module: { // webpack.common.js === (M) R TEU LO PP
     rules: [
       // for loader: tells webpack to process files AS WE IMPORT THEM into our project, e.g. Babel
       {
@@ -20,4 +24,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
 };

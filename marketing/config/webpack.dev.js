@@ -1,7 +1,5 @@
 // merge === fxn to merge different webpack configs (usually for production)
 const { merge } = require('webpack-merge');
-// HtmlWebpackPlugin === takes app's HTML file and injects all JS into it via dynamic script tag
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
@@ -24,9 +22,6 @@ const devConfig = {
         './MarketingApp': './src/bootstrap',
       },
       shared: packageJson.dependencies,
-    }),
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
     }),
   ],
 };
