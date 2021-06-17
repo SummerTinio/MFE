@@ -1,0 +1,41 @@
+# WFlow -> on/Listener -> Event -> Branch + Path
+
+# name of workflow
+name: deploy-container
+# on === add event listener
+on:
+  # for 'push' event 
+  push:
+    # on the following array of branches:
+    branches:
+      - master
+    # only run this workflow when we make a change to this container.
+    paths:
+      - 'container/**'
+
+defaults:
+  run:
+    # set execution directory to container
+    # i.e. "from inside container dir"
+    working-directory: container
+
+# the actual work to be done:
+jobs:
+  build:
+    # flavor of VM u want
+    runs-on: ubuntu-latest
+
+    # steps === CLI & commands used
+    steps:
+      # uses === CLI used to run commands  
+      - uses: actions/checkout@v2
+      # run === the actual commands
+      - run: npm install
+      - run: npm run build
+      
+      # deploy to S3 via AWS cli
+      - uses: chrislennon/action-aws-cli@v1.1
+      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
