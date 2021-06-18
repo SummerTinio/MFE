@@ -20,7 +20,6 @@ const App = function ContainerComponent() {
   return (
     <BrowserRouter>
       <div>
-        <Header />
         <MarketingApp />
       </div>
     </BrowserRouter>
