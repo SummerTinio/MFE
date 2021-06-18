@@ -18,11 +18,12 @@ import Header from './components/Header';
 
 const App = function ContainerComponent() {
   return (
-    <BrowserRouter>
-      <div>
+    <div>
+      <BrowserRouter>
+        <Header />
         <MarketingApp />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 };
 
