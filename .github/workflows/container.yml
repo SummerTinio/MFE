@@ -9,7 +9,7 @@ on:
     # on the following array of branches:
     branches:
       - master
-    # only run this workflow when we make a change to this container.
+    # only run this workflow when we make a change to the following:
     paths:
       - 'container/**'
       # to auto re-deploy when this .yml file is pushed
@@ -38,6 +38,14 @@ jobs:
       # deploy to S3 via AWS cli
       - uses: shinyinc/action-aws-cli@v1.2
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+        env:
+          # only use env variables corresponding to the specific 
+          # command on run: -- don't expose secrets where they aren't needed!
+          # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-1
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
         env:
           # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
