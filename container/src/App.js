@@ -16,12 +16,13 @@ import BrowserRouter from 'react-router-dom';
 import MarketingApp from './components/MarketingApp';
 import Header from './components/Header';
 
-// note: if this doesn't work, add div back to wrap both Components under BrowserRouter
 const App = function ContainerComponent() {
   return (
     <BrowserRouter>
-      <Header />
-      <MarketingApp />
+      <div>
+        <Header />
+        <MarketingApp />
+      </div>
     </BrowserRouter>
   );
 };
