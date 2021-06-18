@@ -34,6 +34,11 @@ jobs:
       # run === the actual commands
       - run: npm install
       - run: npm run build
+        # to expose PRODUCTION_DOMAIN as an env. variable 
+        # (i.e. for any references to process.env.variableName)
+        env:
+          # since Container needs to make a request to that domain for other MFE's remoteEntry.js files
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
       
       # deploy to S3 via AWS cli
       - uses: shinyinc/action-aws-cli@v1.2
@@ -44,10 +49,14 @@ jobs:
           # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ap-northeast-1
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        # create-invalidation === every time we create a new file, that file will be sent to CloudFront
+        # and CloudFront uses that newly-sent file. But if we update files /in place/, we'll get the
+        # old, cached version from CloudFront. So create-invalidation invalidates the cached version
+        # to make sure we get the latest one
       - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
         env:
           # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ap-northeast-1
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
