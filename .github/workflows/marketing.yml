@@ -1,0 +1,57 @@
+# WFlow -> on/Listener -> Event -> Branch + Path
+
+# name of workflow
+name: deploy-marketing
+# on === add event listener
+on:
+  # for 'push' event 
+  push:
+    # on the following array of branches:
+    branches:
+      - master
+    # only run this workflow when we make a change to the following:
+    paths:
+      - 'marketing/**'
+      # to auto re-deploy when this .yml file is pushed
+      - '.github/workflows/marketing.yml'
+
+defaults:
+  run:
+    # set execution directory to container
+    # i.e. "from inside container dir"
+    working-directory: marketing
+
+# the actual work to be done:
+jobs:
+  build:
+    # flavor of VM u want
+    runs-on: ubuntu-latest
+
+    # steps === CLI & commands used
+    steps:
+      # uses === CLI used to run commands  
+      - uses: actions/checkout@v2
+      # run === the actual commands
+      - run: npm install
+      - run: npm run build
+      
+      # deploy to S3 via AWS cli
+      - uses: shinyinc/action-aws-cli@v1.2
+      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/marketing/latest
+        env:
+          # only use env variables corresponding to the specific 
+          # command on run: -- don't expose secrets where they aren't needed!
+          # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        # create-invalidation === every time we create a new file, that file will be sent to CloudFront
+        # and CloudFront uses that newly-sent file. But if we update files /in place/, we'll get the
+        # old, cached version from CloudFront. So create-invalidation invalidates the cached version
+        # to make sure we get the latest one
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/marketing/latest/remoteEntry.js"
+        env:
+          # we're accessing these env variables thru this repo's secrets -- ${{ secrets.VariableName }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
