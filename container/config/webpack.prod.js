@@ -1,5 +1,5 @@
 // merge === fxn to merge different webpack configs,
-// COMMON + DEV in this case.
+// COMMON + PROD in this case.
 const { merge } = require('webpack-merge');
 
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
@@ -15,10 +15,15 @@ const domain = process.env.PRODUCTION_DOMAIN;
 const prodConfig = {
   // will cause Webpack to work differently -- i.e. optimize build for production
   mode: 'production',
+  // how files are (1) Named and (2) Referred to after being processed by Webpack
   output: {
     // contenthash for caching issues
     // all files will be built & named using this template
+    // filename === for (1) Naming
     filename: '[name].[contenthash].js',
+    // publicPath === for (2) Referencing. filename will be pre-pended with the public path
+    // on the dynamic script tag added by HtmlWebpackPlugin
+    publicPath: '/container/latest/',
   },
   plugins: [
     //  Modfed specifically for production.
