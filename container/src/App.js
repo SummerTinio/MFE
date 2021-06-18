@@ -14,7 +14,7 @@ import BrowserRouter from 'react-router-dom';
 
 // importing the "nativized" MFE, w/c is now a Container-nativized Component
 import MarketingApp from './components/MarketingApp';
-import Header from './components/Header';
+import { Header } from './components/Header';
 
 const App = function ContainerComponent() {
   return (
