@@ -12,6 +12,8 @@ on:
     # only run this workflow when we make a change to this container.
     paths:
       - 'container/**'
+      # to auto re-deploy when this .yml file is pushed
+      - '.github/workflows/container.yml'
 
 defaults:
   run:
