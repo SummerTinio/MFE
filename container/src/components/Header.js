@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ signedIn, onSignOut }) {
+const Header = function HeaderFromMaterialUi({ signedIn, onSignOut }) {
   const classes = useStyles();
 
   const onClick = () => {
@@ -64,7 +64,7 @@ export default function Header({ signedIn, onSignOut }) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <AppBar
         position="static"
         color="default"
@@ -93,6 +93,8 @@ export default function Header({ signedIn, onSignOut }) {
           </Button>
         </Toolbar>
       </AppBar>
-    </React.Fragment>
+    </>
   );
-}
+};
+
+export default Header;
