@@ -5,6 +5,7 @@
 // (2) "nativized" MFE's
 
 import React from 'react';
+import BrowserRouter from 'react-router-dom';
 // "nativizing" === importing mount function directly from modFed. Using that
 //  imported mount function to mount MFE inside a Container-native Component.
 //  Involves Refs + useEffect to mount
@@ -13,14 +14,15 @@ import React from 'react';
 
 // importing the "nativized" MFE, w/c is now a Container-nativized Component
 import MarketingApp from './components/MarketingApp';
+import Header from './components/Header';
 
+// note: if this doesn't work, add div back to wrap both Components under BrowserRouter
 const App = function ContainerComponent() {
   return (
-    <div>
-      <h1>LetsGooOO!!</h1>
-      <hr />
+    <BrowserRouter>
+      <Header />
       <MarketingApp />
-    </div>
+    </BrowserRouter>
   );
 };
 
