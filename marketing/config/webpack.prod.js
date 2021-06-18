@@ -10,6 +10,8 @@ const prodConfig = {
   mode: 'production',
   output: {
     filename: '[name].[contenthash].js',
+    // "go to / (current domain), marketing/, latest/"
+    publicPath: '/marketing/latest/',
   },
   plugins: [
     new ModuleFederationPlugin({
