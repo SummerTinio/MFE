@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === 'development') {
     // to add Browser History to marketing app when visited in isolation
     mount(devRoot, {
       defaultHistory: createBrowserHistory(),
-      initialPath: '/auth/signin',
+      // no need to pass initialPath here.
     });
   }
 }

@@ -1,5 +1,5 @@
-// MARKETING APP.JS
-// root/parent component for marketing
+// AUTH APP.JS
+// root/parent component for auth
 import React from 'react';
 import {
   Switch,
@@ -15,20 +15,20 @@ import SignIn from './components/Signin';
 import SignUp from './components/Signup';
 
 // to avoid class name collisions inside Container
-// instead of jss1 jss2, will name classes mkt1 mkt2 etc
+// instead of jss1 jss2, will name classes auth1 auth2 etc
 const generateClassName = createGenerateClassName({
   productionPrefix: 'auth',
 });
 
-const App = function MarketingComponent({ history }) {
+const App = function AuthComponent({ history }) {
   return (
     <>
       <StylesProvider generateClassName={generateClassName}>
         <Router history={history}>
+          <Route exact path="/" component={SignIn} />
           <Switch>
-            <Route exact path="/" component={SignIn} />
-            <Route exact path="/auth/signin" component={SignIn} />
-            <Route exact path="/auth/signup" component={SignUp} />
+            <Route path="/auth/signin" component={SignIn} />
+            <Route path="/auth/signup" component={SignUp} />
           </Switch>
         </Router>
       </StylesProvider>
