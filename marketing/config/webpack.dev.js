@@ -7,6 +7,12 @@ const packageJson = require('../package.json');
 // importing webpack config for processing (i.e. Babel)
 const devConfig = {
   mode: 'development',
+  output: {
+    // publicPath === to help Webpack find files needed by this MFE
+    // "go to / (current domain), marketing/, latest/"
+    // don't forget the slash at the end!
+    publicPath: 'http://localhost:8081/', // also necessary in development!
+  },
   devServer: {
     port: 8081,
     historyApiFallback: { // if client gets a 404, will default to content from index.html

@@ -9,6 +9,12 @@ const packageJson = require('../package.json');
 
 const devConfig = {
   mode: 'development',
+  output: {
+    // publicPath === to help Webpack find files needed by this MFE
+    // "go to / (current domain), marketing/, latest/"
+    // don't forget the slash at the end!
+    publicPath: 'http://localhost:8080/', // also necessary in development!
+  },
   devServer: {
     port: 8080, // 8080 for container, 8081 for marketing, +1 +1 for the other MFE's
     historyApiFallback: {
