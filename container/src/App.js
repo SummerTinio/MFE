@@ -20,6 +20,7 @@ import {
 
 // importing the "nativized" MFE, w/c is now a Container-nativized Component
 import MarketingApp from './components/MarketingApp';
+import AuthApp from './components/AuthApp';
 import Header from './components/Header';
 
 const generateClassName = createGenerateClassName({
@@ -32,6 +33,7 @@ const App = function ContainerComponent() {
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <Header />
+          <AuthApp />
           <MarketingApp />
         </BrowserRouter>
       </StylesProvider>
