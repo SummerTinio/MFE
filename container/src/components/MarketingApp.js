@@ -18,6 +18,7 @@ const MarketingApp = function MarketingComponent() {
     // pass onNavigate eventListener & callback to SYNC navigation between MFE's & Container
     // note: history.listen() call will give us a location
     const { onParentNavigate } = marketingMount(ref.current, {
+      initialPath: history.location.pathname,
       onNavigate: ({ pathname: nextPathName }) => {
         // nextPathName === path user is trying to navigate to /within the marketing app/
         // to prevent infinite loop of communicating path changes
