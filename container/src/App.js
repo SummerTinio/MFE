@@ -6,7 +6,11 @@
 
 import React from 'react';
 // note: must destructure while importing since it's NOT a default export
-import { BrowserRouter } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+} from 'react-router-dom';
 // "nativizing" === importing mount function directly from modFed. Using that
 //  imported mount function to mount MFE inside a Container-native Component.
 //  Involves Refs + useEffect to mount
@@ -32,9 +36,11 @@ const App = function ContainerComponent() {
     <>
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
-          <Header />
-          <AuthApp />
-          <MarketingApp />
+          <Route path="*" component={Header} />
+          <Route exact path="/" component={MarketingApp} />
+          <Route exact path="/pricing" component={MarketingApp} />
+          <Route exact path="/auth/signin" component={AuthApp} />
+          <Route exact path="/auth/signup" component={AuthApp} />
         </BrowserRouter>
       </StylesProvider>
     </>
