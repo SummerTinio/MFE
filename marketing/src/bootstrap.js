@@ -4,11 +4,20 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createMemoryHistory } from 'history';
 import App from './App';
 
 // Mount function to start up the app
-const mount = function mountForMarketingApp(el) {
-  ReactDOM.render(<App />, el);
+// onNavigate === stores the callback w/c communicates changes to currentpath
+// up to the parent/Container, who holds BrowserHistory
+const mount = function mountForMarketingApp(root, { onNavigate }) {
+  const history = createMemoryHistory();
+
+  // history.listen === built-in event listener from createMemoryHistory()
+  // will be called everytime memory history object detects navigation changes
+  history.listen(onNavigate);
+
+  ReactDOM.render(<App history={history} />, root);
 };
 
 // If we are in development and in isolation,

@@ -5,13 +5,28 @@
 import { mount as marketingMount } from 'marketing/MarketingApp';
 import React, { useRef, useEffect } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 const MarketingApp = function MarketingComponent() {
   const ref = useRef(null);
+  // history object used by container (Browser History)
+  const history = useHistory();
 
   // try adding a dependency array of [] here.
   // to make sure mounting only happens on initial render.
   useEffect(() => {
-    marketingMount(ref.current);
+    // pass onNavigate eventListener & callback to SYNC navigation between MFE's & Container
+    // note: history.listen() call will give us a location
+    marketingMount(ref.current, {
+      onNavigate: ({ pathname: nextPathName }) => {
+        // nextPathName === path user is trying to navigate to /within the marketing app/
+        // to prevent infinite loop of communicating path changes
+        const currentPathName = history.location.pathname;
+        if (currentPathName !== nextPathName) {
+          history.push(nextPathName);
+        }
+      },
+    });
   });
 
   // this is how to render supposedly-standalone Remotes into a Host(Container) app.
