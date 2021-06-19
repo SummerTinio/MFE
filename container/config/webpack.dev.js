@@ -30,6 +30,7 @@ const devConfig = {
         // no need for ./ or relative references. it's just the name.
         // i.e. 'marketing': 'marketing@ .....'
         marketing: 'marketing@http://localhost:8081/remoteEntry.js',
+        auth: 'auth@http://localhost:8082/remoteEntry.js',
       },
       // other options: shared: [] or shared: {} with singleton:true or :false options
       shared: packageJson.dependencies,

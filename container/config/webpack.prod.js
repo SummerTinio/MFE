@@ -33,6 +33,7 @@ const prodConfig = {
       remotes: {
         // must refer to specific AWS-domain
         marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`,
+        auth: `auth@${domain}/auth/latest/remoteEntry.js`,
       },
       shared: packageJson.dependencies,
     }),
