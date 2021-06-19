@@ -2,15 +2,21 @@
 // root/parent component for marketing
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { StylesProvider } from '@material-ui/core/styles';
+import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 import Landing from './components/Landing';
 import Pricing from './components/Pricing';
 
+// to avoid class name collisions inside Container
+// instead of jss1 jss2, will name classes mkt1 mkt2 etc
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'mkt',
+});
+
 const App = function MarketingComponent() {
   return (
-    <div>
-      <StylesProvider>
+    <>
+      <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <Switch>
             <Route exact path="/pricing" component={Pricing} />
@@ -18,7 +24,7 @@ const App = function MarketingComponent() {
           </Switch>
         </BrowserRouter>
       </StylesProvider>
-    </div>
+    </>
   );
 };
 

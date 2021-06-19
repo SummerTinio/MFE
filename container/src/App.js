@@ -13,17 +13,28 @@ import { BrowserRouter } from 'react-router-dom';
 //  usually done on another file specifically for that component, so App.js
 //  remains readable at a glance.
 
+import {
+  StylesProvider,
+  createGenerateClassName,
+} from '@material-ui/core/styles';
+
 // importing the "nativized" MFE, w/c is now a Container-nativized Component
 import MarketingApp from './components/MarketingApp';
 import Header from './components/Header';
 
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'cont',
+});
+
 const App = function ContainerComponent() {
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <MarketingApp />
-      </BrowserRouter>
+      <StylesProvider generateClassName={generateClassName}>
+        <BrowserRouter>
+          <Header />
+          <MarketingApp />
+        </BrowserRouter>
+      </StylesProvider>
     </>
   );
 };
