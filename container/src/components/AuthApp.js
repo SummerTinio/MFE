@@ -18,6 +18,8 @@ const AuthApp = function AuthComponent() {
     // pass onNavigate eventListener & callback to SYNC navigation between MFE's & Container
     // note: history.listen() call will give us a location
     const { onParentNavigate } = authMount(ref.current, {
+      // initialPath will be at '/auth/signin' by the time this mount fxn is called
+      initialPath: history.location.pathname,
       onNavigate: ({ pathname: nextPathName }) => {
         // nextPathName === path user is trying to navigate to /within the marketing app/
         // to prevent infinite loop of communicating path changes

@@ -13,11 +13,14 @@ import App from './App';
 // Mount function to start up the app
 // onNavigate === stores the callback w/c communicates changes to currentpath
 // up to the parent/Container, who holds BrowserHistory
-const mount = function mountForAuthApp(root, { onNavigate, defaultHistory }) {
+const mount = function mountForAuthApp(root, { onNavigate, defaultHistory, initialPath }) {
   // if defaultHistory exists (i.e. mkt is in development),
   // use that as history object.
   // else, use memory history (since mkt app is hosted on container)
-  const history = defaultHistory || createMemoryHistory();
+  const history = defaultHistory || createMemoryHistory({
+    // initialPath === '/auth/signin'
+    initialEntries: [initialPath],
+  });
 
   // history.listen === built-in event listener from createMemoryHistory()
   // will be called everytime memory history object detects navigation changes
@@ -53,6 +56,7 @@ if (process.env.NODE_ENV === 'development') {
     // to add Browser History to marketing app when visited in isolation
     mount(devRoot, {
       defaultHistory: createBrowserHistory(),
+      initialPath: '/auth/signin',
     });
   }
 }
