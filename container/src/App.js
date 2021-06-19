@@ -32,15 +32,21 @@ const generateClassName = createGenerateClassName({
 });
 
 const App = function ContainerComponent() {
+  // no need for 'exact' in Route since we just want
+  // Route path= to match up to the first matching path
+  // i.e. /auth for AuthApp, / for MarketingApp
+
+  // no need to put Header inside Switch, since we want it
+  // shown for all paths
   return (
     <>
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
-          <Route path="*" component={Header} />
-          <Route exact path="/" component={MarketingApp} />
-          <Route exact path="/pricing" component={MarketingApp} />
-          <Route exact path="/auth/signin" component={AuthApp} />
-          <Route exact path="/auth/signup" component={AuthApp} />
+          <Route component={Header} />
+          <Switch>
+            <Route path="/auth" component={AuthApp} />
+            <Route path="/" component={MarketingApp} />
+          </Switch>
         </BrowserRouter>
       </StylesProvider>
     </>
