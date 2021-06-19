@@ -15,7 +15,9 @@ const mount = function mountForMarketingApp(root, { onNavigate }) {
 
   // history.listen === built-in event listener from createMemoryHistory()
   // will be called everytime memory history object detects navigation changes
-  history.listen(onNavigate);
+  if (onNavigate) {
+    history.listen(onNavigate);
+  }
 
   ReactDOM.render(<App history={history} />, root);
 };
@@ -26,7 +28,9 @@ if (process.env.NODE_ENV === 'development') {
   const devRoot = document.querySelector('#_marketing-dev-root');
 
   if (devRoot) {
-    mount(devRoot);
+    // add empty options object to fix "cannot read property 'onNavigate'"
+    // when marketing app is visited in isolation
+    mount(devRoot, {});
   }
 }
 
