@@ -20,6 +20,19 @@ const mount = function mountForMarketingApp(root, { onNavigate }) {
   }
 
   ReactDOM.render(<App history={history} />, root);
+
+  return {
+    // onParentNavigate === triggered everytime:
+    // (1) browser <- or -> buttons are clicked
+    // (2) any container-governed route elements are clicked (changes path)
+    // (3) any time u navigate to a link on child MFE /from the container/
+    onParentNavigate({ pathname: nextPathNameOnParent }) {
+      const childCurrentPathName = history.location.pathname;
+      if (childCurrentPathName !== nextPathNameOnParent) {
+        history.push(nextPathNameOnParent);
+      }
+    },
+  };
 };
 
 // If we are in development and in isolation,

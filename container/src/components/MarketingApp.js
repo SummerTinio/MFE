@@ -17,7 +17,7 @@ const MarketingApp = function MarketingComponent() {
   useEffect(() => {
     // pass onNavigate eventListener & callback to SYNC navigation between MFE's & Container
     // note: history.listen() call will give us a location
-    marketingMount(ref.current, {
+    const { onParentNavigate } = marketingMount(ref.current, {
       onNavigate: ({ pathname: nextPathName }) => {
         // nextPathName === path user is trying to navigate to /within the marketing app/
         // to prevent infinite loop of communicating path changes
@@ -27,7 +27,12 @@ const MarketingApp = function MarketingComponent() {
         }
       },
     });
-  });
+
+    // for DOWNWARD communication of changes to current history.location.pathname
+    history.listen(onParentNavigate);
+
+    // add a dependency array [] to limit useEffect() call to "only on first render of mkt app!"
+  }, []);
 
   // this is how to render supposedly-standalone Remotes into a Host(Container) app.
   return <div ref={ref} />;
