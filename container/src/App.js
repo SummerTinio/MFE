@@ -9,6 +9,7 @@
 import React, {
   lazy,
   Suspense,
+  useState,
 } from 'react';
 // note: must destructure while importing since it's NOT a default export
 import {
@@ -41,7 +42,10 @@ const generateClassName = createGenerateClassName({
   productionPrefix: 'cont',
 });
 
+// all auth state held by ContainerApp
 const App = function ContainerComponent() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
   // no need for 'exact' in Route since we just want
   // Route path= to match up to the first matching path
   // i.e. /auth for AuthApp, / for MarketingApp
@@ -53,14 +57,21 @@ const App = function ContainerComponent() {
   // i.e. with the < />
 
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <>
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
-          <Route component={Header} />
+          <Route>
+            <Header onSignOut={() => setIsSignedIn(false)} isSignedIn={isSignedIn} />
+          </Route>
           <Suspense fallback={<ProgressBar />}>
             <Switch>
-              <Route path="/auth" component={AuthLazy} />
-              <Route path="/" component={MarketingLazy} />
+              <Route path="/auth">
+                <AuthLazy onSignIn={() => setIsSignedIn(true)} />
+              </Route>
+              <Route path="/">
+                <MarketingLazy onSignIn={() => setIsSignedIn(true)} />
+              </Route>
             </Switch>
           </Suspense>
         </BrowserRouter>
