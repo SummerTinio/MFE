@@ -4,7 +4,12 @@
 // (1) Container-native Components
 // (2) "nativized" MFE's
 
-import React from 'react';
+// Suspense === React Component
+// Lazy === a fxn used WITH Suspense to lazy load other components
+import React, {
+  lazy,
+  Suspense,
+} from 'react';
 // note: must destructure while importing since it's NOT a default export
 import {
   BrowserRouter,
@@ -22,10 +27,15 @@ import {
   createGenerateClassName,
 } from '@material-ui/core/styles';
 
-// importing the "nativized" MFE, w/c is now a Container-nativized Component
-import MarketingApp from './components/MarketingApp';
-import AuthApp from './components/AuthApp';
 import Header from './components/Header';
+import ProgressBar from './components/ProgressBar';
+// importing the "nativized" MFE, w/c is now a Container-nativized Component
+
+// note: when using lazy() make sure you RETURN import() from the callback!
+// in this case: implicit return
+const MarketingLazy = lazy(() => import('./components/MarketingApp'));
+
+const AuthLazy = lazy(() => import('./components/AuthApp'));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'cont',
@@ -38,15 +48,21 @@ const App = function ContainerComponent() {
 
   // no need to put Header inside Switch, since we want it
   // shown for all paths
+
+  // note: fallback={} on Suspense wants a JSX'd component
+  // i.e. with the < />
+
   return (
     <>
       <StylesProvider generateClassName={generateClassName}>
         <BrowserRouter>
           <Route component={Header} />
-          <Switch>
-            <Route path="/auth" component={AuthApp} />
-            <Route path="/" component={MarketingApp} />
-          </Switch>
+          <Suspense fallback={<ProgressBar />}>
+            <Switch>
+              <Route path="/auth" component={AuthLazy} />
+              <Route path="/" component={MarketingLazy} />
+            </Switch>
+          </Suspense>
         </BrowserRouter>
       </StylesProvider>
     </>
