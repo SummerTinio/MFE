@@ -99,7 +99,9 @@ export default function SignIn({ onSignIn: handleSignIn }) {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={`${classes.submit} ${classes.link}`}
+            component={Link}
+            to="/dashboard"
             onClick={handleSignIn}
           >
             Sign In
