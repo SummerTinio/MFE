@@ -108,7 +108,9 @@ export default function SignIn({ onSignIn: handleSignIn }) {
           </Button>
           <Grid container>
             <Grid item>
-              <Link to="/auth/signup">Don't have an account? Sign Up</Link>
+              <Typography variant="body2" color="textSecondary" align="center">
+                <Link to="/auth/signup">Don't have an account? Sign Up</Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

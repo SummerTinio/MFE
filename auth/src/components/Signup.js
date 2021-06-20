@@ -132,7 +132,9 @@ export default function SignUp({ onSignIn: handleSignIn }) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to="/auth/signin">Already have an account? Sign in</Link>
+              <Typography variant="body2" color="textSecondary" align="center">
+                <Link to="/auth/signin">Already have an account? Sign in</Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>
