@@ -13,7 +13,12 @@ import App from './App';
 // Mount function to start up the app
 // onNavigate === stores the callback w/c communicates changes to currentpath
 // up to the parent/Container, who holds BrowserHistory
-const mount = function mountForAuthApp(root, { onNavigate, defaultHistory, initialPath }) {
+const mount = function mountForAuthApp(root, {
+  onNavigate,
+  defaultHistory,
+  initialPath,
+  onSignIn,
+}) {
   // if defaultHistory exists (i.e. mkt is in development),
   // use that as history object.
   // else, use memory history (since mkt app is hosted on container)
@@ -28,7 +33,7 @@ const mount = function mountForAuthApp(root, { onNavigate, defaultHistory, initi
     history.listen(onNavigate);
   }
 
-  ReactDOM.render(<App history={history} />, root);
+  ReactDOM.render(<App onSignIn={onSignIn} history={history} />, root);
 
   return {
     // onParentNavigate === triggered everytime:

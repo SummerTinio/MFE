@@ -7,7 +7,7 @@ import React, { useRef, useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-const AuthApp = function AuthComponent() {
+const AuthApp = function AuthComponent({ onSignIn }) {
   const ref = useRef(null);
   // history object used by container (Browser History)
   const history = useHistory();
@@ -28,11 +28,11 @@ const AuthApp = function AuthComponent() {
           history.push(nextPathName);
         }
       },
+      // since onSignIn === onSignIn()
+      onSignIn,
     });
-
     // for DOWNWARD communication of changes to current history.location.pathname
     history.listen(onParentNavigate);
-
     // add a dependency array [] to limit useEffect() call to "only on first render of mkt app!"
   }, []);
 
