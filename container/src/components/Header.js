@@ -54,12 +54,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = function HeaderFromMaterialUi({ signedIn, onSignOut }) {
+const Header = function HeaderFromMaterialUi({ isSignedIn, onSignOut: handleSignOut }) {
   const classes = useStyles();
 
   const onClick = () => {
-    if (signedIn && onSignOut) {
-      onSignOut();
+    // isSignedIn === auth state. true if auth'd, false if not auth'd
+    if (isSignedIn && handleSignOut) {
+      // will set auth state to false on Container Component
+      handleSignOut();
     }
   };
 
@@ -86,10 +88,10 @@ const Header = function HeaderFromMaterialUi({ signedIn, onSignOut }) {
             variant="outlined"
             className={classes.link}
             component={RouterLink}
-            to={signedIn ? '/' : '/auth/signin'}
+            to={isSignedIn ? '/' : '/auth/signin'}
             onClick={onClick}
           >
-            {signedIn ? 'Logout' : 'Login'}
+            {isSignedIn ? 'Logout' : 'Login'}
           </Button>
         </Toolbar>
       </AppBar>

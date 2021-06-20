@@ -16,8 +16,10 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link to="/">Your Website</Link> {new Date().getFullYear()}
-      {'.'}
+      <Link to="/">Your Website</Link>
+      {' '}
+      {new Date().getFullYear()}
+      .
     </Typography>
   );
 }
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp({ onSignIn }) {
+export default function SignUp({ onSignIn: handleSignIn }) {
   const classes = useStyles();
 
   return (
@@ -124,7 +126,7 @@ export default function SignUp({ onSignIn }) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={onSignIn}
+            onClick={handleSignIn}
           >
             Sign Up
           </Button>

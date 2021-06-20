@@ -18,9 +18,10 @@ function Copyright() {
       {'Copyright © '}
       <Link color="inherit" to="/">
         Your Website
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
-      {'.'}
+      .
     </Typography>
   );
 }
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ onSignIn }) {
+export default function SignIn({ onSignIn: handleSignIn }) {
   const classes = useStyles();
 
   return (
@@ -99,13 +100,13 @@ export default function SignIn({ onSignIn }) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={onSignIn}
+            onClick={handleSignIn}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item>
-              <Link to="/auth/signup">{"Don't have an account? Sign Up"}</Link>
+              <Link to="/auth/signup">Don't have an account? Sign Up</Link>
             </Grid>
           </Grid>
         </form>
