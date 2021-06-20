@@ -9,6 +9,7 @@
 import React, {
   lazy,
   Suspense,
+  useEffect,
   useState,
 } from 'react';
 // note: must destructure while importing since it's NOT a default export
@@ -16,6 +17,7 @@ import {
   BrowserRouter,
   Route,
   Switch,
+  Redirect,
 } from 'react-router-dom';
 // "nativizing" === importing mount function directly from modFed. Using that
 //  imported mount function to mount MFE inside a Container-native Component.
@@ -28,6 +30,10 @@ import {
   createGenerateClassName,
 } from '@material-ui/core/styles';
 
+import {
+  createBrowserHistory,
+} from 'history';
+
 import Header from './components/Header';
 import ProgressBar from './components/ProgressBar';
 // importing the "nativized" MFE, w/c is now a Container-nativized Component
@@ -35,16 +41,26 @@ import ProgressBar from './components/ProgressBar';
 // note: when using lazy() make sure you RETURN import() from the callback!
 // in this case: implicit return
 const MarketingLazy = lazy(() => import('./components/MarketingApp'));
-
 const AuthLazy = lazy(() => import('./components/AuthApp'));
+const DashboardLazy = lazy(() => import('./components/DashboardApp'));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: 'cont',
 });
 
+const history = createBrowserHistory();
+
 // all auth state held by ContainerApp
 const App = function ContainerComponent() {
   const [isSignedIn, setIsSignedIn] = useState(false);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      history.push('/dashboard');
+    } else if (!isSignedIn && history.location.pathname === '/dashboard') {
+      history.push('/');
+    }
+  }, [isSignedIn]);
 
   // no need for 'exact' in Route since we just want
   // Route path= to match up to the first matching path
@@ -68,6 +84,10 @@ const App = function ContainerComponent() {
             <Switch>
               <Route path="/auth">
                 <AuthLazy onSignIn={() => setIsSignedIn(true)} />
+              </Route>
+              <Route path="/dashboard">
+                {!isSignedIn && history.push('/')}
+                <DashboardLazy />
               </Route>
               <Route path="/">
                 <MarketingLazy onSignIn={() => setIsSignedIn(true)} />
