@@ -17,9 +17,7 @@ const devConfig = {
   },
   devServer: {
     port: 8080, // 8080 for container, 8081 for marketing, +1 +1 for the other MFE's
-    historyApiFallback: {
-      index: 'index.html',
-    },
+    historyApiFallback: true,
   },
   plugins: [
     new ModuleFederationPlugin({ // Remote: NFES. Container: NRS
@@ -31,6 +29,7 @@ const devConfig = {
         // i.e. 'marketing': 'marketing@ .....'
         marketing: 'marketing@http://localhost:8081/remoteEntry.js',
         auth: 'auth@http://localhost:8082/remoteEntry.js',
+        dashboard: 'dashboard@http://localhost:8083/remoteEntry.js',
       },
       // other options: shared: [] or shared: {} with singleton:true or :false options
       shared: packageJson.dependencies,

@@ -15,9 +15,7 @@ const devConfig = {
   },
   devServer: {
     port: 8082,
-    historyApiFallback: { // if client gets a 404, will default to content from index.html
-      index: 'index.html',
-    },
+    historyApiFallback: true,
   },
   plugins: [
     new ModuleFederationPlugin({ // Remote: NFES. Container: NRS
