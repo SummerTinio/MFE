@@ -20,15 +20,20 @@ const generateClassName = createGenerateClassName({
   productionPrefix: 'auth',
 });
 
-const App = function AuthComponent({ history }) {
+const App = function AuthComponent({ history, onSignIn }) {
   return (
+    // eslint-disable-next-line react/jsx-filename-extension
     <>
       <StylesProvider generateClassName={generateClassName}>
         <Router history={history}>
           <Route exact path="/" component={SignIn} />
           <Switch>
-            <Route path="/auth/signin" component={SignIn} />
-            <Route path="/auth/signup" component={SignUp} />
+            <Route path="/auth/signin">
+              <SignIn onSignIn={onSignIn} />
+            </Route>
+            <Route path="/auth/signup">
+              <SignUp onSignIn={onSignIn} />
+            </Route>
           </Switch>
         </Router>
       </StylesProvider>
